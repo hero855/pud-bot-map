@@ -1,1 +1,37 @@
-<h1>pud map</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Map test</title>
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=0f7ecc2c-917a-4928-886f-8987e7e7b4ed&lang=ru_RU"
+      type="text/javascript"
+    ></script>
+  </head>
+  <body style="margin: 0; height: 100vh">
+    <div id="map" style="height: 100%" />
+    <script type="text/javascript">
+      // Функция ymaps.ready() будет вызвана, когда
+      // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
+      ymaps.ready(init);
+      function init() {
+        // Создание карты.
+        var myMap = new ymaps.Map("map", {
+          center: [44.9521, 34.1024],
+          zoom: 13,
+        });
+
+        var data = ymaps.geoXml.load("https://dl.dropboxusercontent.com/s/x6bnrxqhnhynbkb/pud-marks.gpx?dl=0");
+
+        // Загрузка производится асинхронно.
+        data.then(function (res) {
+          // Установка пресета.
+          res.geoObjects.options.set({
+            preset: "gpx#plain",
+          });
+          // Добавление объектов на карту.
+          myMap.geoObjects.add(res.geoObjects);
+        });
+      }
+    </script>
+  </body>
+</html>
